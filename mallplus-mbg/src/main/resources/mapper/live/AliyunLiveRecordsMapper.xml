@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.live.mapper.AliyunLiveRecordsMapper">
+
+
+
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AliyunLiveRecords" >
+        <id column="id" property="id"  />
+        <result column="aliyun_live_id" property="aliyunLiveId"  />
+        <result column="user_id" property="userId"  />
+        <result column="room_number" property="roomNumber"  />
+        <result column="roon_name" property="roonName"  />
+        <result column="room_title" property="roomTitle"  />
+        <result column="rtmp_url" property="rtmpUrl"  />
+        <result column="flv_url" property="flvUrl"  />
+        <result column="m3u8_url" property="m3u8Url"  />
+        <result column="add_live" property="addLive"  />
+        <result column="create_time" property="createTime"  />
+        <result column="start_time" property="startTime"  />
+        <result column="end_time" property="endTime"  />
+        <result column="red_envelope_id" property="redEnvelopeId"  />
+        <result column="anchor_new_fans" property="anchorNewFans"  />
+        <result column="is_show" property="isShow"  />
+        <result column="anchor_popularity_value" property="anchorPopularityValue"  />
+    </resultMap>
+    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AliyunLiveRecords">
+
+        select
+        ar.id,
+        ar.aliyun_live_id,
+        ar.user_id,
+        ar.room_number,
+        ar.roon_name,
+        ar.room_title,
+        ar.rtmp_url,
+        ar.flv_url,
+        ar.m3u8_url,
+        ar.replay_url,
+        ar.add_live,
+        ar.create_time,
+        ar.start_time,
+        ar.end_time,
+        ar.red_envelope_id,
+        ar.anchor_new_fans,
+        ar.is_show,
+        ar.anchor_popularity_value,
+        um.nickname,
+        um.icon as uicon
+        from aliyun_live_records as ar left join ums_member as um  on ar.user_id = um.id
+        where 1=1
+        <if test="record.roonName !=null and record.roonName !=''">
+            and (ar.roon_name like concat(concat("%",#{record.roonName}),"%")
+            or ar.room_number like concat(concat("%",#{record.roonName}),"%")
+            or ar.room_title like concat(concat("%",#{record.roonName}),"%")
+            or um.nickname like concat(concat("%",#{record.roonName}),"%"))
+        </if>
+        <if test="record.isShow !=null ">
+            and ar.is_show = #{record.isShow}
+        </if>
+        ORDER BY ar.create_time DESC
+    </select>
+
+
+</mapper>

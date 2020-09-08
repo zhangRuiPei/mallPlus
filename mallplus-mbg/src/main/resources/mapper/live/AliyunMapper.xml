@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.live.mapper.AliyunMapper">
+
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AliyunLive" >
+        <id column="id" property="id"  />
+        <result column="icon" property="icon"  />
+        <result column="app_name" property="appName"  />
+        <result column="steam_name" property="steamName"  />
+        <result column="add_live" property="addLive"  />
+        <result column="rtmp_url" property="rtmpUrl"  />
+        <result column="flv_url" property="flvUrl"  />
+        <result column="m3u8_url" property="m3u8Url"  />
+        <result column="user_id" property="userId"  />
+        <result column="room_number" property="roomNumber"  />
+        <result column="roon_name" property="roonName"  />
+        <result column="room_title" property="roomTitle"  />
+        <result column="create_time" property="createTime"  />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, icon, app_name,steam_name,add_live,rtmp_url,flv_url,m3u8_url,user_id,room_number,roon_name,room_title,create_time
+  </sql>
+    <insert id="addLive" parameterType="com.zscat.mallplus.live.entity.AliyunLive">
+
+        insert into aliyun_live (id,icon,user_id,room_number,roon_name,room_title,create_time,roon_status,is_show,sort)
+        values (#{record.id},
+                #{record.icon},
+                #{record.userId},
+                #{record.roomNumber},
+                #{record.roonName},
+                #{record.roomTitle},
+                #{record.createTime},
+                #{record.roonStatus},
+                #{record.isShow},
+                #{record.sort})
+
+    </insert>
+    <update id="updateByIdCanNull" parameterType="com.zscat.mallplus.live.entity.AliyunLive">
+
+      update aliyun_live set user_id = #{record.userId} where id = #{record.id}
+
+    </update>
+    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AliyunLive">
+        select
+        al.id,
+        al.icon,
+        al.app_name,
+        al.steam_name,
+        al.add_live,
+        al.rtmp_url,
+        al.flv_url,
+        al.m3u8_url,
+        al.user_id,
+        al.room_number,
+        al.roon_name,
+        al.room_title,
+        al.create_time,
+        al.is_show,
+        al.sort,
+        al.roon_status,
+        um.username,
+        um.nickname,
+        um.icon as uicon
+        from aliyun_live as al left join ums_member as um on al.user_id=um.id
+        where 1=1
+        <if test="record.roonName !=null and record.roonName !=''">
+            and (al.roon_name like concat(concat("%",#{record.roonName}),"%")
+            or al.room_number like concat(concat("%",#{record.roonName}),"%")
+            or um.nickname like concat(concat("%",#{record.roonName}),"%"))
+        </if>
+        <if test="record.isShow !=null ">
+            and al.is_show = #{record.isShow}
+        </if>
+        <if test="record.roonStatus !=null ">
+            and al.roon_status = #{record.roonStatus}
+        </if>
+        ORDER BY al.sort DESC,al.create_time DESC
+    </select>
+    <select id="findRoomById" resultType="java.lang.Integer">
+        select 1 from aliyun_live where room_number = #{roomId}
+    </select>
+    <select id="findList" resultType="com.zscat.mallplus.live.entity.AliyunLive">
+        select app_name,steam_name,add_Live,rtmp_url,flv_url,m3u8_url,create_time,user_id,room_number,roon_name,
+        room_title  from  aliyun_live
+    </select>
+</mapper>

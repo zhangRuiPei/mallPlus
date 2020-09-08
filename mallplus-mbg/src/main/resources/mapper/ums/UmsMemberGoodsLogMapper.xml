@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.ums.mapper.UmsMemberGoodsLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.ums.entity.UmsMemberGoodsLog">
+        <id column="id" property="id"/>
+        <result column="share_id" property="shareId"/>
+        <result column="operate_man" property="operateMan"/>
+        <result column="operate_before" property="operateBefore"/>
+        <result column="operate_after" property="operateAfter"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="type" property="type"/>
+        <result column="note" property="note"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, share_id, operate_man, operate_before, operate_after, operate_time, note, type
+    </sql>
+
+    <select id="getLogList" resultType="com.zscat.mallplus.ums.entity.UmsMemberGoodsLog">
+
+        SELECT
+        id,
+        share_id,
+        operate_man,
+        operate_before,
+        operate_after,
+        operate_time,
+        name,
+        type,
+        note
+        FROM ums_member_goods_log
+        where 1=1
+
+        <if test="record.type!=null">
+            and type=#{record.type}
+        </if>
+        <if test="record.name!=null">
+           and name like concat('%',#{record.name},'%')
+        </if>
+        <if test="record.operateMan !=null and record.operateMan != '' ">
+            and operate_man like concat('%',#{record.operateMan},'%')
+        </if>
+        ORDER BY operate_time DESC
+    </select>
+</mapper>

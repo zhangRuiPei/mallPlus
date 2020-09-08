@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.ums.mapper.UmsMemberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.ums.entity.UmsMember">
+        <id column="id" property="id"/>
+        <result column="member_level_id" property="memberLevelId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="icon" property="icon"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="city" property="city"/>
+        <result column="job" property="job"/>
+        <result column="personalized_signature" property="personalizedSignature"/>
+        <result column="source_type" property="sourceType"/>
+        <result column="integration" property="integration"/>
+        <result column="growth" property="growth"/>
+        <result column="luckey_count" property="luckeyCount"/>
+        <result column="history_integration" property="historyIntegration"/>
+        <result column="avatar" property="avatar"/>
+        <result column="weixin_openid" property="weixinOpenid"/>
+        <result column="invitecode" property="invitecode"/>
+        <result column="blance" property="blance"/>
+        <result column="school_id" property="schoolId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city,
+        job, personalized_signature, source_type, integration, growth, luckey_count, history_integration, avatar,
+        weixin_openid, invitecode, blance, school_id
+    </sql>
+
+    <select id="listByDate" resultMap="BaseResultMap">
+        select * from ums_member where
+        <if test="type==1">
+            date_format(create_time,'%y%m%d') = date_format(#{date},'%y%m%d')
+        </if>
+        <if test="type==2">
+            date_format(create_time,'%y%m') = date_format(#{date},'%y%m')
+        </if>
+    </select>
+
+
+    <select id="findByOpenId" resultMap="BaseResultMap">
+        select id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city,
+        job, personalized_signature, source_type, integration, growth, luckey_count, history_integration, avatar,
+        weixin_openid, invitecode, blance, school_id from ums_member where weixin_openid= #{openId}
+    </select>
+
+    <select id="findByPhone" resultMap="BaseResultMap">
+        select id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city,
+        job, personalized_signature, source_type, integration, growth, luckey_count, history_integration, avatar,
+        weixin_openid, invitecode, blance, school_id from ums_member where phone= #{phone}
+    </select>
+
+    <select id="findAll" resultType="com.zscat.mallplus.ums.entity.UmsMember">
+
+        select
+        id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city,
+        job, personalized_signature, source_type, integration, growth, luckey_count, history_integration, avatar,
+        weixin_openid, invitecode, blance,store_id,room_nums,is_anchor,like_num,forward_num,comment_num,anchor_popularity_value,anchor_fans_num
+        from ums_member
+        where is_anchor = 1
+        <if test="record.username !=null and record.username !=''">
+            and (username like concat(concat("%",#{record.username}),"%")
+            or nickname like concat(concat("%",#{record.username}),"%")
+            or phone like concat(concat("%",#{record.username}),"%"))
+        </if>
+        <if test="record.gender !=null ">
+            and gender = #{record.gender}
+        </if>
+    </select>
+
+
+    <update id="updateByIdCanNull" parameterType="com.zscat.mallplus.ums.entity.UmsMember">
+        update ums_member set room_nums = #{record.roomNums} where username = #{record.username}
+    </update>
+
+</mapper>

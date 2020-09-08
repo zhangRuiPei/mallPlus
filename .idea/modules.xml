@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/mallplus.iml" filepath="$PROJECT_DIR$/.idea/mallplus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-admin/mallplus-admin.iml" filepath="$PROJECT_DIR$/mallplus-admin/mallplus-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-live/mallplus-live.iml" filepath="$PROJECT_DIR$/mallplus-live/mallplus-live.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-mbg/mallplus-mbg.iml" filepath="$PROJECT_DIR$/mallplus-mbg/mallplus-mbg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-pay/mallplus-pay.iml" filepath="$PROJECT_DIR$/mallplus-pay/mallplus-pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-portal/mallplus-portal.iml" filepath="$PROJECT_DIR$/mallplus-portal/mallplus-portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mallplus-search/mallplus-search.iml" filepath="$PROJECT_DIR$/mallplus-search/mallplus-search.iml" />
+    </modules>
+  </component>
+</project>

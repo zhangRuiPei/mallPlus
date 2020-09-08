@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.live.mapper.AliyunLiveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AliyunLive">
+        <id column="icon" property="icon"/>
+        <result column="app_name" property="appName"/>
+        <result column="steam_name" property="steamName"/>
+        <result column="add_Live" property="addLive"/>
+        <result column="rtmp_url" property="rtmpUrl"/>
+        <result column="flv_url" property="flvUrl"/>
+        <result column="m3u8_url" property="m3u8Url"/>
+        <result column="create_time" property="createTime"/>
+        <result column="user_id" property="userId"/>
+        <result column="room_number" property="roomNumber"/>
+        <result column="roon_name" property="roonName"/>
+        <result column="room_title" property="roomTitle"/>
+    </resultMap>
+
+
+    <select id="findList" resultMap="BaseResultMap">
+        select app_name,steam_name,add_Live,rtmp_url,flv_url,m3u8_url,create_time,user_id,room_number,roon_name,
+        room_title  from  aliyun_live
+    </select>
+
+
+</mapper>

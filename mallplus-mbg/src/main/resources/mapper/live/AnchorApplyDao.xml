@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.live.mapper.AnchorApplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AnchorApply">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="user_id_care" property="userIdCare"/>
+        <result column="user_id_care_front" property="userIdCareFront"/>
+        <result column="user_id_careBack" property="userIdCareBack"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="ums_member_id" property="umsMemberId"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+
+    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AnchorApply">
+
+
+        select
+        al.id,
+        al.username ,
+        al.user_id_care,
+        al.user_id_care_front,
+        al.user_id_careBack,
+        al.video_url,
+        al.ums_member_id,
+        al.status,
+        al.create_time,
+        from aliyun_live as al left join ums_member as um on al.user_id=um.id
+        order by create_time
+
+    </select>
+</mapper>

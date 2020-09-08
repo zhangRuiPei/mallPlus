@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.sms.mapper.SmsCouponStoreRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sms.entity.SmsCouponStoreRelation">
+        <id column="id" property="id"/>
+        <result column="coupon_id" property="couponId"/>
+        <result column="stores_id" property="storesId"/>
+        <result column="store_name" property="storeName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, coupon_id, stores_id, store_name
+    </sql>
+
+</mapper>

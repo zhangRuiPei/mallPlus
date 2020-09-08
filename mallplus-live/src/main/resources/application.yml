@@ -1,0 +1,23 @@
+
+aliyun:
+  live:
+    appName:
+    ident:
+      url:
+        validTime: 86400
+    pull:
+      domain: livesdk.artsheep.cn
+      ident:
+        key: LhtNvB9AMg
+    push:
+      domain: pushsdk.artsheep.cn
+      ident:
+        key: 9oe0IL5CrR
+    streamName:
+oss:
+  accesKeyId: LTAI4G8KanVmxdaP6bqf7BSY
+  accessKeySecret: d9akpZ1dHPudWOSJ47d4QWZvJoLOB6
+  bucketName: yigou-test
+  endpoint: oss-cn-beijing.aliyuncs.com
+server:
+  port: 8086

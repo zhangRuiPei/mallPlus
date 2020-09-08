@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.sms.mapper.SmsHomeBannerAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sms.entity.SmsHomeBannerAddress">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+    </resultMap>
+
+    <insert id="insertSmsHomeBanner"  useGeneratedKeys="true" keyProperty="id">
+        insert into sms_home_banner_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="address != null  and address != ''">address,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+        </trim>
+    </insert>
+
+</mapper>

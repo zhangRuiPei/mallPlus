@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscat.mallplus.bill.mapper.BillPaymentsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zscat.mallplus.bill.entity.BillPayments">
+        <id column="payment_id" property="paymentId"/>
+        <result column="money" property="money"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="payment_code" property="paymentCode"/>
+        <result column="ip" property="ip"/>
+        <result column="params" property="params"/>
+        <result column="payed_msg" property="payedMsg"/>
+        <result column="trade_no" property="tradeNo"/>
+        <result column="ctime" property="ctime"/>
+        <result column="utime" property="utime"/>
+    </resultMap>
+
+    <select id="findBillPaymentsBy" resultType="com.zscat.mallplus.bill.entity.BillPayments">
+     select
+        payment_id as paymentId,
+        money as money,
+        user_id as userId,
+        type as type,
+        status as status,
+        payment_code as paymentCode,
+        ip as ip,
+        params as params,
+        payed_msg as payedMsg,
+        trade_no as tradeNo,
+        ctime as ctime,
+        utime as utime
+        from bill_payments
+        where payment_id = #{paymentId}
+    </select>
+
+
+    <select id="findBillTradeNo" resultType="com.zscat.mallplus.bill.entity.BillPayments">
+         select
+        payment_id as paymentId,
+        money as money,
+        user_id as userId,
+        type as type,
+        status as status,
+        payment_code as paymentCode,
+        ip as ip,
+        params as params,
+        payed_msg as payedMsg,
+        trade_no as tradeNo,
+        ctime as ctime,
+        utime as utime
+        from bill_payments
+        where trade_no = #{tradeNo}
+    </select>
+
+</mapper>
