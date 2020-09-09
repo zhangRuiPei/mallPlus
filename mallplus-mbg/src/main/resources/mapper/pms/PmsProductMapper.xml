@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.pms.mapper.PmsProductMapper">
+<mapper namespace="com.zrp.mallplus.pms.mapper.PmsProductMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.pms.entity.PmsProduct">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.pms.entity.PmsProduct">
         <id column="id" property="id"/>
         <result column="brand_id" property="brandId"/>
         <result column="product_category_id" property="productCategoryId"/>
@@ -55,46 +55,46 @@
         <result column="transfee" property="transfee"/>
     </resultMap>
 
-    <resultMap id="cartProductMap" type="com.zscat.mallplus.oms.vo.CartProduct" autoMapping="true">
+    <resultMap id="cartProductMap" type="com.zrp.mallplus.oms.vo.CartProduct" autoMapping="true">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <collection property="productAttributeList" columnPrefix="attr_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductAttributeMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductAttributeMapper.BaseResultMap">
         </collection>
         <collection property="skuStockList" columnPrefix="sku_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
         </collection>
     </resultMap>
-    <resultMap id="promotionProductMap" type="com.zscat.mallplus.pms.vo.PromotionProduct"
+    <resultMap id="promotionProductMap" type="com.zrp.mallplus.pms.vo.PromotionProduct"
                extends="BaseResultMap">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <collection property="skuStockList" columnPrefix="sku_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
         </collection>
         <collection property="productLadderList" columnPrefix="ladder_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductLadderMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductLadderMapper.BaseResultMap">
         </collection>
         <collection property="productFullReductionList" columnPrefix="full_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductFullReductionMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductFullReductionMapper.BaseResultMap">
         </collection>
     </resultMap>
 
-    <resultMap id="updateInfoMap" type="com.zscat.mallplus.pms.vo.PmsProductResult"
+    <resultMap id="updateInfoMap" type="com.zrp.mallplus.pms.vo.PmsProductResult"
                extends="BaseResultMap">
         <result column="cateParentId" jdbcType="BIGINT" property="cateParentId"/>
         <collection property="productLadderList" columnPrefix="ladder_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductLadderMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductLadderMapper.BaseResultMap">
         </collection>
         <collection property="productFullReductionList" columnPrefix="full_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductFullReductionMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductFullReductionMapper.BaseResultMap">
         </collection>
         <collection property="memberPriceList" columnPrefix="member_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsMemberPriceMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsMemberPriceMapper.BaseResultMap">
         </collection>
         <collection property="skuStockList" columnPrefix="sku_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsSkuStockMapper.BaseResultMap">
         </collection>
         <collection property="productAttributeValueList" columnPrefix="attribute_"
-                    resultMap="com.zscat.mallplus.pms.mapper.PmsProductAttributeValueMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.pms.mapper.PmsProductAttributeValueMapper.BaseResultMap">
         </collection>
         <collection property="subjectProductRelationList" column="{productId=id}"
                     select="selectSubjectProductRelationByProductId"/>
@@ -126,11 +126,11 @@
         WHERE p.id=#{id}
     </select>
     <select id="selectSubjectProductRelationByProductId"
-            resultMap="com.zscat.mallplus.pms.mapper.CmsSubjectProductRelationMapper.BaseResultMap">
+            resultMap="com.zrp.mallplus.pms.mapper.CmsSubjectProductRelationMapper.BaseResultMap">
         select * from cms_subject_product_relation where product_id=#{productId}
     </select>
     <select id="selectPrefrenceAreaProductRelationByProductId"
-            resultMap="com.zscat.mallplus.pms.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
+            resultMap="com.zrp.mallplus.pms.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
         select * from cms_prefrence_area_product_relation where product_id=#{productId}
     </select>
 
@@ -276,10 +276,10 @@
             #{detailHtml},#{storeId},#{albumPics},#{pic},#{detailMobileHtml},#{description},#{createTime})
     </insert>
 
-    <select id="addAdress" resultType="com.zscat.mallplus.sms.entity.SmsHomeBannerAddress">
+    <select id="addAdress" resultType="com.zrp.mallplus.sms.entity.SmsHomeBannerAddress">
         select * from sms_home_banner_address
     </select>
-    <select id="getOList" resultType="com.zscat.mallplus.pms.entity.PmsProduct">
+    <select id="getOList" resultType="com.zrp.mallplus.pms.entity.PmsProduct">
         select id,brand_id,product_category_id,product_category_name,feight_template_id,product_attribute_category_id,
         name,pic,product_sn,delete_status,publish_status,new_status,recommand_status,verify_status,sort,sale,price,promotion_price,
         original_price,selling_price,live_price,wholesale_price,group_purchase_price,price_spike,reserve_price,distribution_ratio,

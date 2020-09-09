@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.sys.mapper.SysAreaMapper">
+<mapper namespace="com.zrp.mallplus.sys.mapper.SysAreaMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sys.entity.SysArea">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sys.entity.SysArea">
         <result column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="deep" property="deep"/>
@@ -19,7 +19,7 @@
         id, pid, deep, name, pinyin_prefix, pinyin, ext_id, ext_name
     </sql>
 
-    <resultMap id="listWithChildrenMap" type="com.zscat.mallplus.sys.vo.AreaWithChildrenItem"
+    <resultMap id="listWithChildrenMap" type="com.zrp.mallplus.sys.vo.AreaWithChildrenItem"
                extends="BaseResultMap">
         <collection property="children" resultMap="BaseResultMap"
                     columnPrefix="child_"></collection>

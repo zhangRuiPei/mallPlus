@@ -39,7 +39,15 @@
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.70" level="project" />
     <orderEntry type="library" name="Maven: com.aliyun:aliyun-java-sdk-live:3.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.aliyun:aliyun-java-sdk-vod:2.15.2" level="project" />
-    <orderEntry type="library" name="Maven: com.aliyun:aliyun-sdk-vod-upload:1.4.12" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.aliyun:aliyun-sdk-vod-upload:1.4.12">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/aliyun-java-vod-upload-1.4.12.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: com.aliyun.oss:aliyun-sdk-oss:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.jdom:jdom:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-json:1.9" level="project" />

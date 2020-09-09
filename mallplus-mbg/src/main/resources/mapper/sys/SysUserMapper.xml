@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.sys.mapper.SysUserMapper">
+<mapper namespace="com.zrp.mallplus.sys.mapper.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sys.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sys.entity.SysUser">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
@@ -14,19 +14,22 @@
         <result column="create_time" property="createTime"/>
         <result column="login_time" property="loginTime"/>
         <result column="status" property="status"/>
-        <result column="supply_id" property="supplyId"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="store_id" property="storeId"/>
+        <result column="store_name" property="storeName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, icon, email, nick_name, note, create_time, login_time, status, supply_id
+        id, username, password, icon, email, nick_name, note, create_time, login_time, status, is_admin,store_id,store_name
     </sql>
 
-    <select id="selectByUserName" resultType="com.zscat.mallplus.sys.entity.SysUserVo">
-        select * from sys_user
+    <select id="selectByUserName" resultType="com.zrp.mallplus.sys.vo.SysUserVo">
+        select <include refid="Base_Column_List"></include> from sys_user
         where username = #{username}
     </select>
-    <select id="findAll" resultType="com.zscat.mallplus.sys.entity.SysUser">
+
+    <select id="findAll" resultType="com.zrp.mallplus.sys.entity.SysUser">
         SELECT su.username,se.name
         FROM sys_user su
         LEFT JOIN sys_user_role sr ON su.id = sr.admin_id
@@ -36,7 +39,7 @@
         ORDER BY su.create_time
 
     </select>
-    <select id="getUserLists" resultType="com.zscat.mallplus.sys.entity.SysUser">
+    <select id="getUserLists" resultType="com.zrp.mallplus.sys.entity.SysUser">
 
         SELECT
         su.id,

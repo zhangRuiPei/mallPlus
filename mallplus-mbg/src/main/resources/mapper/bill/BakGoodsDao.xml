@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.bill.mapper.BakGoodsMapper">
+<mapper namespace="com.zrp.mallplus.bill.mapper.BakGoodsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.bill.entity.BakGoods">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.bill.entity.BakGoods">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
     </resultMap>
 
-    <select id="selectNotPar" resultType="com.zscat.mallplus.bill.entity.BakGoods">
+    <select id="selectNotPar" resultType="com.zrp.mallplus.bill.entity.BakGoods">
         select id as id,
         goods_sn as goodsSn,
         name as name,

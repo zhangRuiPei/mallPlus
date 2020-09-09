@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.ums.mapper.UmsMemberSmsMapper">
+<mapper namespace="com.zrp.mallplus.ums.mapper.UmsMemberSmsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.ums.entity.UmsMemberSms">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.ums.entity.UmsMemberSms">
         <id column="id" property="id"/>
         <result column="phone" property="phone"/>
         <result column="sign_name" property="signName"/>
@@ -22,7 +22,7 @@
         message, create_time, store_id
     </sql>
 
-    <select id="getSmsList" resultType="com.zscat.mallplus.ums.entity.UmsMemberSms">
+    <select id="getSmsList" resultType="com.zrp.mallplus.ums.entity.UmsMemberSms">
         SELECT id, phone, sign_name, template_code, params, bizId, code,
         message, create_time, store_id from ums_member_sms ORDER BY create_time DESC
 

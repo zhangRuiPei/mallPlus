@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.live.mapper.AliyunLiveRecordsMapper">
+<mapper namespace="com.zrp.mallplus.live.mapper.AliyunLiveRecordsMapper">
 
 
 
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AliyunLiveRecords" >
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.live.entity.AliyunLiveRecords" >
         <id column="id" property="id"  />
         <result column="aliyun_live_id" property="aliyunLiveId"  />
         <result column="user_id" property="userId"  />
@@ -23,7 +23,7 @@
         <result column="is_show" property="isShow"  />
         <result column="anchor_popularity_value" property="anchorPopularityValue"  />
     </resultMap>
-    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AliyunLiveRecords">
+    <select id="findAll" resultType="com.zrp.mallplus.live.entity.AliyunLiveRecords">
 
         select
         ar.id,

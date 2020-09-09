@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.pms.mapper.PmsProductCategoryMapper">
+<mapper namespace="com.zrp.mallplus.pms.mapper.PmsProductCategoryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.pms.entity.PmsProductCategory">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.pms.entity.PmsProductCategory">
         <id column="id" property="id"/>
         <result column="parent_id" property="parentId"/>
         <result column="name" property="name"/>
@@ -19,7 +19,7 @@
         <result column="description" property="description"/>
     </resultMap>
 
-    <resultMap id="listWithChildrenMap" type="com.zscat.mallplus.pms.vo.PmsProductCategoryWithChildrenItem"
+    <resultMap id="listWithChildrenMap" type="com.zrp.mallplus.pms.vo.PmsProductCategoryWithChildrenItem"
                extends="BaseResultMap">
         <collection property="children" resultMap="BaseResultMap"
                     columnPrefix="child_"></collection>
@@ -41,7 +41,7 @@
     </select>
     
     
-    <select id="selectProjectByCategory" resultType="com.zscat.mallplus.pms.vo.PmsProductList">
+    <select id="selectProjectByCategory" resultType="com.zrp.mallplus.pms.vo.PmsProductList">
         SELECT
           a.*
         FROM
@@ -64,7 +64,7 @@
     </select>
 
 
-    <select id="findMenuAll" resultType="com.zscat.mallplus.pms.entity.PmsProductCategory">
+    <select id="findMenuAll" resultType="com.zrp.mallplus.pms.entity.PmsProductCategory">
         SELECT <include refid="Base_Column_List" />
         FROM pms_product_category
         WHERE show_status=1

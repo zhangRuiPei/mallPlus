@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.ums.mapper.UmsMemberGoodsLogMapper">
+<mapper namespace="com.zrp.mallplus.ums.mapper.UmsMemberGoodsLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.ums.entity.UmsMemberGoodsLog">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.ums.entity.UmsMemberGoodsLog">
         <id column="id" property="id"/>
         <result column="share_id" property="shareId"/>
         <result column="operate_man" property="operateMan"/>
@@ -20,7 +20,7 @@
         id, share_id, operate_man, operate_before, operate_after, operate_time, note, type
     </sql>
 
-    <select id="getLogList" resultType="com.zscat.mallplus.ums.entity.UmsMemberGoodsLog">
+    <select id="getLogList" resultType="com.zrp.mallplus.ums.entity.UmsMemberGoodsLog">
 
         SELECT
         id,

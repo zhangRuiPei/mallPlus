@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.sms.mapper.SmsGroupMapper">
+<mapper namespace="com.zrp.mallplus.sms.mapper.SmsGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sms.entity.SmsGroup">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sms.entity.SmsGroup">
         <id column="id" property="id"/>
         <result column="goods_id" property="goodsId"/>
         <result column="goods_name" property="goodsName"/>
@@ -24,7 +24,7 @@
         id, goods_id, goods_name, origin_price, group_price, start_time, end_time, hours, peoples, status, create_time,
         max_people, limit_goods
     </sql>
-    <select id="getByGoodsId" resultType="com.zscat.mallplus.sms.entity.SmsGroup">
+    <select id="getByGoodsId" resultType="com.zrp.mallplus.sms.entity.SmsGroup">
         select `id`,`goods_id` goodsId,`goods_name` goodsName,`origin_price` originPrice,`group_price` groupPrice,
         `start_time` startTime,`end_time` endTime,`hours`,`peoples`,`status`,`create_time` createTime,
         `max_people` maxPeople,`limit_goods` limitGoods from sms_group where goods_id = #{goodsId} order by create_time

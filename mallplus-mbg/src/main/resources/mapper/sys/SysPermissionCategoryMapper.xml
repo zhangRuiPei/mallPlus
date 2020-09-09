@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zscat.mallplus.sys.mapper.SysPermissionCategoryMapper">
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sys.entity.SysPermissionCategory">
+<mapper namespace="com.zrp.mallplus.sys.mapper.SysPermissionCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sys.entity.SysPermissionCategory">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="id" property="id"/>
         <result column="name" property="name"/>
@@ -48,7 +48,7 @@
         </where>
     </select>
 
-    <insert id="save" parameterType="com.zscat.mallplus.sys.entity.SysPermissionCategory">
+    <insert id="save" parameterType="com.zrp.mallplus.sys.entity.SysPermissionCategory">
         insert into sys_permission_category
         (
         `id`,
@@ -69,7 +69,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.zscat.mallplus.sys.entity.SysPermissionCategory">
+    <update id="update" parameterType="com.zrp.mallplus.sys.entity.SysPermissionCategory">
         update sys_permission_category
         <set>
             <if test="name != null">`name` = #{name},</if>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zscat.mallplus.pms.mapper.PmsSmallNaviconCategoryMapper">
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.pms.entity.PmsSmallNaviconCategory">
+<mapper namespace="com.zrp.mallplus.pms.mapper.PmsSmallNaviconCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.pms.entity.PmsSmallNaviconCategory">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="title" property="title"/>
         <result column="icon" property="icon"/>
@@ -47,7 +47,7 @@
         </where>
     </select>
 
-    <insert id="save" parameterType="com.zscat.mallplus.pms.entity.PmsSmallNaviconCategory" useGeneratedKeys="true"
+    <insert id="save" parameterType="com.zrp.mallplus.pms.entity.PmsSmallNaviconCategory" useGeneratedKeys="true"
             keyProperty="id">
         insert into pms_small_navicon_category
         (
@@ -67,7 +67,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.zscat.mallplus.pms.entity.PmsSmallNaviconCategory">
+    <update id="update" parameterType="com.zrp.mallplus.pms.entity.PmsSmallNaviconCategory">
         update pms_small_navicon_category
         <set>
             <if test="title != null">`title` = #{title},</if>

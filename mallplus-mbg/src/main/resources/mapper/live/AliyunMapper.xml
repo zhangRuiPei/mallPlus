@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.live.mapper.AliyunMapper">
+<mapper namespace="com.zrp.mallplus.live.mapper.AliyunMapper">
 
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AliyunLive" >
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.live.entity.AliyunLive" >
         <id column="id" property="id"  />
         <result column="icon" property="icon"  />
         <result column="app_name" property="appName"  />
@@ -20,7 +20,7 @@
     <sql id="Base_Column_List" >
     id, icon, app_name,steam_name,add_live,rtmp_url,flv_url,m3u8_url,user_id,room_number,roon_name,room_title,create_time
   </sql>
-    <insert id="addLive" parameterType="com.zscat.mallplus.live.entity.AliyunLive">
+    <insert id="addLive" parameterType="com.zrp.mallplus.live.entity.AliyunLive">
 
         insert into aliyun_live (id,icon,user_id,room_number,roon_name,room_title,create_time,roon_status,is_show,sort)
         values (#{record.id},
@@ -35,12 +35,12 @@
                 #{record.sort})
 
     </insert>
-    <update id="updateByIdCanNull" parameterType="com.zscat.mallplus.live.entity.AliyunLive">
+    <update id="updateByIdCanNull" parameterType="com.zrp.mallplus.live.entity.AliyunLive">
 
       update aliyun_live set user_id = #{record.userId} where id = #{record.id}
 
     </update>
-    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AliyunLive">
+    <select id="findAll" resultType="com.zrp.mallplus.live.entity.AliyunLive">
         select
         al.id,
         al.icon,
@@ -79,7 +79,7 @@
     <select id="findRoomById" resultType="java.lang.Integer">
         select 1 from aliyun_live where room_number = #{roomId}
     </select>
-    <select id="findList" resultType="com.zscat.mallplus.live.entity.AliyunLive">
+    <select id="findList" resultType="com.zrp.mallplus.live.entity.AliyunLive">
         select app_name,steam_name,add_Live,rtmp_url,flv_url,m3u8_url,create_time,user_id,room_number,roon_name,
         room_title  from  aliyun_live
     </select>

@@ -1,11 +1,11 @@
 package com;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zscat.mallplus.cms.entity.CmsSubject;
-import com.zscat.mallplus.cms.mapper.CmsSubjectMapper;
-import com.zscat.mallplus.sys.mapper.SysAreaMapper;
-import com.zscat.mallplus.sys.mapper.SysSchoolMapper;
-import com.zscat.mallplus.ums.mapper.UmsMemberMapper;
+import com.zrp.mallplus.cms.entity.CmsSubject;
+import com.zrp.mallplus.cms.mapper.CmsSubjectMapper;
+import com.zrp.mallplus.sys.mapper.SysAreaMapper;
+import com.zrp.mallplus.sys.mapper.SysSchoolMapper;
+import com.zrp.mallplus.ums.mapper.UmsMemberMapper;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.junit.runner.RunWith;

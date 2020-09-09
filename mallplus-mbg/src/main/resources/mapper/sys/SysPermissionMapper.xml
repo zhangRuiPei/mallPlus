@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.sys.mapper.SysPermissionMapper">
+<mapper namespace="com.zrp.mallplus.sys.mapper.SysPermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sys.entity.SysPermission">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sys.entity.SysPermission">
         <id column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="name" property="name"/>
@@ -31,7 +31,7 @@
         r.role_id = #{roleId} and p.status=1
     </select>
 
-    <select id="listMenuByUserId" resultType="com.zscat.mallplus.sys.entity.SysPermission">
+    <select id="listMenuByUserId" resultType="com.zrp.mallplus.sys.entity.SysPermission">
         select distinct
         m.id , pid, name, url,uri,
         `value`,`type`,icon,sort,create_time
@@ -45,7 +45,7 @@
         order by
         m.sort
     </select>
-    <select id="listUserPerms" resultType="com.zscat.mallplus.sys.entity.SysPermission">
+    <select id="listUserPerms" resultType="com.zrp.mallplus.sys.entity.SysPermission">
         select distinct
         m.id , pid, name, url,uri,
         `value`,`type`,icon,sort,create_time

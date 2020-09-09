@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.fenxiao.mapper.FenxiaoRecordsMapper">
+<mapper namespace="com.zrp.mallplus.fenxiao.mapper.FenxiaoRecordsMapper">
 
 
-    <select id="listRecordsGroupByMemberId" resultType="com.zscat.mallplus.fenxiao.entity.FenxiaoRecords">
+    <select id="listRecordsGroupByMemberId" resultType="com.zrp.mallplus.fenxiao.entity.FenxiaoRecords">
         SELECT SUM(money) money,type,member_id from fenxiao_records where `status`=2 group by type,member_id
     </select>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.oms.mapper.OmsOrderMapper">
+<mapper namespace="com.zrp.mallplus.oms.mapper.OmsOrderMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.oms.entity.OmsOrder">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.oms.entity.OmsOrder">
         <id column="id" property="id"/>
         <result column="member_id" property="memberId"/>
         <result column="coupon_id" property="couponId"/>
@@ -54,10 +54,10 @@
         <result column="goods_name" property="goodsName"/>
         <result column="school_id" property="schoolId"/>
     </resultMap>
-    <resultMap id="orderDetailMap" type="com.zscat.mallplus.oms.vo.OmsOrderDetail"
-               extends="com.zscat.mallplus.oms.mapper.OmsOrderMapper.BaseResultMap">
+    <resultMap id="orderDetailMap" type="com.zrp.mallplus.oms.vo.OmsOrderDetail"
+               extends="com.zrp.mallplus.oms.mapper.OmsOrderMapper.BaseResultMap">
         <collection property="orderItemList" columnPrefix="ot_"
-                    resultMap="com.zscat.mallplus.oms.mapper.OmsOrderItemMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.oms.mapper.OmsOrderItemMapper.BaseResultMap">
         </collection>
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -215,7 +215,7 @@
     </update>
 
     <!--根据会员ID统计订单数以及订单总金额-->
-    <select id="listOrderGroupByMemberId" resultType="com.zscat.mallplus.oms.vo.OrderStstic">
+    <select id="listOrderGroupByMemberId" resultType="com.zrp.mallplus.oms.vo.OrderStstic">
         select count(id) totalCount ,sum(pay_amount) totalPayAmount,member_id memberId from oms_order
         where 9>status group by member_id
     </select>
@@ -292,7 +292,7 @@
         goods_id, goods_name, school_id
         from oms_order where member_id =#{memberId}
     </select>
-    <select id="getOList" resultType="com.zscat.mallplus.oms.entity.OmsOrder">
+    <select id="getOList" resultType="com.zrp.mallplus.oms.entity.OmsOrder">
         select
         os.id,
         os.member_id,
@@ -352,7 +352,7 @@
         ORDER BY os.create_time DESC
     </select>
 
-    <select id="findAppletByStoreId" resultType="com.zscat.mallplus.ums.entity.SysAppletSet">
+    <select id="findAppletByStoreId" resultType="com.zrp.mallplus.ums.entity.SysAppletSet">
 
         select appid ,appsecret,mchid,pay_sign_key,certname,notifyurl,templateid1,templateid2,templateid3,templateid4,templateid5,templateid6,store_id
         from sys_applet_set

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.ums.mapper.SysAppletSetMapper">
+<mapper namespace="com.zrp.mallplus.ums.mapper.SysAppletSetMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.ums.entity.SysAppletSet">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.ums.entity.SysAppletSet">
         <id column="store_id" property="storeId"/>
         <result column="appid" property="appid"/>
         <result column="appsecret" property="appsecret"/>

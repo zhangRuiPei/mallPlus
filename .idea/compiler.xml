@@ -2,15 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mallplus-portal" />
         <module name="mallplus-search" />
-        <module name="mallplus-mbg" />
         <module name="mallplus-admin" />
         <module name="mallplus-pay" />
+        <module name="mallplus-mbg" />
         <module name="mallplus-live" />
       </profile>
     </annotationProcessing>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.live.mapper.AnchorApplyMapper">
+<mapper namespace="com.zrp.mallplus.live.mapper.AnchorApplyMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.live.entity.AnchorApply">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.live.entity.AnchorApply">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="user_id_care" property="userIdCare"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
 
-    <select id="findAll" resultType="com.zscat.mallplus.live.entity.AnchorApply">
+    <select id="findAll" resultType="com.zrp.mallplus.live.entity.AnchorApply">
 
 
         select

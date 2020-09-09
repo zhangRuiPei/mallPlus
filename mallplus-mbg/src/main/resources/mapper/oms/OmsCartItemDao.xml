@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.oms.mapper.OmsCartItemMapper">
+<mapper namespace="com.zrp.mallplus.oms.mapper.OmsCartItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.oms.entity.OmsCartItem">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.oms.entity.OmsCartItem">
         <id column="id" property="id"/>
         <result column="product_id" property="productId"/>
         <result column="product_sku_id" property="productSkuId"/>

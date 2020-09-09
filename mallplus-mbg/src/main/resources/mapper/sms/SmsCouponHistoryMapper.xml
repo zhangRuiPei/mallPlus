@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zscat.mallplus.sms.mapper.SmsCouponHistoryMapper">
+<mapper namespace="com.zrp.mallplus.sms.mapper.SmsCouponHistoryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zscat.mallplus.sms.entity.SmsCouponHistory">
+    <resultMap id="BaseResultMap" type="com.zrp.mallplus.sms.entity.SmsCouponHistory">
         <id column="id" property="id"/>
         <result column="coupon_id" property="couponId"/>
         <result column="member_id" property="memberId"/>
@@ -20,16 +20,16 @@
         <result column="note" property="note"/>
     </resultMap>
 
-    <resultMap id="couponHistoryDetailMap" type="com.zscat.mallplus.sms.vo.SmsCouponHistoryDetail"
+    <resultMap id="couponHistoryDetailMap" type="com.zrp.mallplus.sms.vo.SmsCouponHistoryDetail"
                extends="BaseResultMap">
-        <association property="coupon" resultMap="com.zscat.mallplus.sms.mapper.SmsCouponMapper.BaseResultMap"
+        <association property="coupon" resultMap="com.zrp.mallplus.sms.mapper.SmsCouponMapper.BaseResultMap"
                      columnPrefix="c_">
         </association>
         <collection property="productRelationList" columnPrefix="cpr_"
-                    resultMap="com.zscat.mallplus.sms.mapper.SmsCouponProductRelationMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.sms.mapper.SmsCouponProductRelationMapper.BaseResultMap">
         </collection>
         <collection property="categoryRelationList" columnPrefix="cpcr_"
-                    resultMap="com.zscat.mallplus.sms.mapper.SmsCouponProductCategoryRelationMapper.BaseResultMap">
+                    resultMap="com.zrp.mallplus.sms.mapper.SmsCouponProductCategoryRelationMapper.BaseResultMap">
         </collection>
     </resultMap>
     <select id="getDetailList" resultMap="couponHistoryDetailMap">
