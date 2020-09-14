@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -36,12 +37,10 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * <p>
- * 后台用户表 前端控制器
- * </p>
- *
- * @author zscat
- * @since 2019-04-14
+ * @Author: 敲李奶奶
+ * @Version: 1.0.0
+ * @time 2020/9/9 10:27
+ * @remark: 后台用户表
  */
 @Slf4j
 @Api(value = "用户管理", description = "", tags = {"用户管理"})
@@ -71,27 +70,46 @@ public class SysUserController extends ApiController {
     private SysUserMapper sysUserMapper;
 
 
+    /**
+     * 条件查询所有用户
+     * 条件 : 店铺ID  参数 : storeId
+     * 条件 : 角色ID 参数 : roleId
+     * 条件 : 店铺名称/用户昵称 参数 : nickName
+     * @param entity
+     * @return
+     */
     @SysLog(MODULE = "sys", REMARK = "根据条件查询所有用户列表")
     @ApiOperation("根据条件查询所有用户列表")
     @GetMapping(value = "/list")
-    public Object getListByPage(SysUser entity,
-                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
-    ) {
-        if(entity.getStoreId()!=null && entity.getStoreId()==1){
+    @Transactional
+    @PreAuthorize("hasAuthority('sys:sysUser:getListByPage')")
+    public Object getListByPage(@RequestBody(required = false) SysUserVo entity) {
+        if(entity.getStoreId()!=null && entity.getStoreId()!=null){
             entity.setStoreId(null);
         }
-        return new CommonResult().success(sysUserService.getUserList(entity,pageNum,pageSize));
+        return new CommonResult().success(sysUserService.getUserList(entity,entity.getPageNum(),entity.getPageSize()));
     }
 
-    @SysLog(MODULE = "sys", REMARK = "保存用户")
-    @ApiOperation("保存用户")
+    /**
+     * 给新用户开通账号
+     * 参数 : username 用户门
+     * 参数 : storeId 商铺ID
+     * 参数 : password 密码(可为空)
+     * 参数 : email 邮箱
+     * 参数 : icon 头像URL
+     * @param entity 用户实体类
+     * @return
+     */
+    @SysLog(MODULE = "sys", REMARK = "新用户开通账号")
+    @ApiOperation("新用户开通账号")
     @PostMapping(value = "/register")
-    public Object saveUser(@RequestBody SysUserVo entity) {
+    @Transactional
+    @PreAuthorize("hasAuthority('sys:sysUser:saveUser')")
+    public Object saveUser(@RequestBody(required = false) SysUserVo entity) {
         try {
-           /* if (ValidatorUtils.empty(entity.getStoreId())){
+            if (ValidatorUtils.empty(entity.getStoreId())){
                 entity.setStoreId(UserUtils.getCurrentMember().getStoreId());
-            }*/
+            }
             if (sysUserService.saves(entity)) {
                 return new CommonResult().success();
             }
@@ -103,10 +121,17 @@ public class SysUserController extends ApiController {
     }
 
 
-    @SysLog(MODULE = "sys", REMARK = "更新用户,角色")
-    @ApiOperation("更新用户")
+    /**
+     * 根据ID 更新用户角色信息
+     * @param entity
+     * @return
+     */
+    @SysLog(MODULE = "sys", REMARK = "更新商铺内用户角色")
+    @ApiOperation("更新商铺内用户角色")
     @PostMapping(value = "/update")
-    public Object updateUser(@RequestBody SysUser entity) {
+    @Transactional
+    @PreAuthorize("hasAuthority('sys:sysUser:updateUser')")
+    public Object updateUser(@RequestBody(required = false) SysUserVo entity) {
         try {
             if (sysUserService.updates(entity.getId(), entity)) {
                 return new CommonResult().success();
@@ -119,10 +144,18 @@ public class SysUserController extends ApiController {
     }
 
 
-    @SysLog(MODULE = "sys", REMARK = "更新用户")
-    @ApiOperation("更新用户")
+    /**
+     * 修改用户密码
+     * @param entity
+     * @return
+     */
+    @SysLog(MODULE = "sys", REMARK = "修改用户密码")
+    @ApiOperation("修改用户密码")
     @PostMapping(value = "/updateUser")
-    public Object updateSysUser(@RequestBody SysUser entity) {
+    @Transactional
+    @PreAuthorize("hasAuthority('sys:sysUser:updateSysUserPassword')")
+    public Object updateSysUser(@RequestBody(required = false) SysUserVo entity) {
+
         if(entity.getPassword()!=null && !"".equals(entity.getPassword())){
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         }
@@ -138,19 +171,25 @@ public class SysUserController extends ApiController {
     }
 
 
+    /**
+     * 删除用户
+     * @param sysUserVo 用户ID : sysUserVo.getId
+     * @return
+     */
     @SysLog(MODULE = "sys", REMARK = "删除用户")
     @ApiOperation("删除用户")
-    @GetMapping(value = "/delete/{id}")
-    public Object deleteUser(@ApiParam("用户id") @PathVariable Long id) {
+    @PostMapping(value = "/delete")
+    @PreAuthorize("hasAuthority('sys:sysUser:deleteUser')")
+    public Object deleteUser(@RequestBody(required = false) SysUserVo sysUserVo) {
         try {
-            if (ValidatorUtils.empty(id)) {
+            if (ValidatorUtils.empty(sysUserVo.getId())) {
                 return new CommonResult().paramFailed("用户id");
             }
-           /*  SysUser user = sysUserService.getById(id);
-           if (user.getSupplyId() != null && user.getSupplyId() == 1) {
+             SysUser user = sysUserService.getById(sysUserVo.getId());
+           if (user.getIsAdmin() != null && user.getIsAdmin() == 1) {
                 return new CommonResult().paramFailed("管理员账号不能删除");
-            }*/
-            int count = sysUserService.removeById(id);
+            }
+            int count = sysUserService.removeById(sysUserVo.getId());
             if (count>0) {
                 return new CommonResult().success();
             }
@@ -161,13 +200,23 @@ public class SysUserController extends ApiController {
         return new CommonResult().failed();
     }
 
+    /**
+     * 批量删除用户
+     * @param sysUserVo 参数 : sysUserVo.getUserIds
+     * @return
+     */
     @SysLog(MODULE = "sys", REMARK = "批量删除用户")
     @ApiOperation("批量删除用户")
     @PostMapping(value = "/delete/batch")
     @Transactional
-    public Object deleteUserBatch(@RequestParam("ids") List<Long> ids) {
+    @PreAuthorize("hasAuthority('sys:sysUser:deleteUserBatch')")
+    public Object deleteUserBatch(@RequestBody(required = false) SysUserVo sysUserVo) {
         try {
-            for(Long id:ids){
+            for(Long id:sysUserVo.getUserIds()){
+                SysUser user = sysUserService.getById(id);
+                if (user.getIsAdmin() != null && user.getIsAdmin() == 1) {
+                    return new CommonResult().paramFailed("管理员账号不能删除");
+                }
                 sysUserService.removeById(id);
             }
             return new CommonResult().success();
@@ -178,16 +227,21 @@ public class SysUserController extends ApiController {
     }
 
 
-    @SysLog(MODULE = "sys", REMARK = "给用户分配角色")
+    /**
+     * 根据用户ID 查询用户详细信息
+     * @param entity 参数 : SysUserVo.getId
+     * @return
+     */
+    @SysLog(MODULE = "sys", REMARK = "查询用户明细")
     @ApiOperation("查询用户明细")
-    @GetMapping(value = "/{id}")
-    public Object getUserById(@ApiParam("用户id") @PathVariable Long id) {
+    @PostMapping(value = "getUserById")
+    @PreAuthorize("hasAuthority('sys:sysUser:getUserById')")
+    public Object getUserById(@RequestBody(required = false) SysUserVo entity) {
         try {
-            if (ValidatorUtils.empty(id)) {
+            if (ValidatorUtils.empty(entity.getId())) {
                 return new CommonResult().paramFailed("用户id");
             }
-            SysUser coupon = sysUserService.getById(id);
-            coupon.setPassword(null);
+            SysUser coupon = sysUserService.getById(entity.getId());
             return new CommonResult().success(coupon);
         } catch (Exception e) {
             log.error("查询用户明细：%s", e.getMessage(), e);
@@ -196,9 +250,14 @@ public class SysUserController extends ApiController {
 
     }
 
+    /**
+     * 刷新Token
+     * @param request
+     * @return
+     */
     @SysLog(MODULE = "sys", REMARK = "刷新token")
     @ApiOperation(value = "刷新token")
-    @RequestMapping(value = "/token/refresh", method = RequestMethod.GET)
+    @GetMapping(value = "/token/refresh")
     @ResponseBody
     public Object refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
@@ -212,24 +271,26 @@ public class SysUserController extends ApiController {
         return new CommonResult().success(tokenMap);
     }
 
+    /**
+     * 用户 账号密码登录 修改最后登陆时间
+     * @param sysUserVo
+     * @return token
+     */
     @SysLog(MODULE = "sys", REMARK = "登录以后返回token")
     @ApiOperation(value = "登录以后返回token")
-    @RequestMapping(value = "/login1", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     @ResponseBody
-    public Object login1( @RequestParam(value = "username", defaultValue = "1") String username,
-                          @RequestParam(value = "password", defaultValue = "1") String password) {
+    public Object login1 (@RequestBody(required = false) SysUserVo sysUserVo) {
         try {
-            String token = sysUserService.login(username, password);
+            String token = sysUserService.login(sysUserVo.getUsername(), sysUserVo.getPassword());
             if (token == null) {
                 return new CommonResult().paramFailed("用户名或密码错误");
             }
-
             SysUser queryU = new SysUser();
-            queryU.setUsername(username);
+            queryU.setUsername(sysUserVo.getUsername());
             SysUser umsAdmin = sysUserService.getOne(new QueryWrapper<>(queryU));
             umsAdmin.setLoginTime(new Date());
             sysUserService.updateById(umsAdmin);
-
             Map<String, Object> tokenMap = new HashMap<>();
             tokenMap.put("token", token);
             tokenMap.put("tokenHead", tokenHead);
@@ -239,28 +300,10 @@ public class SysUserController extends ApiController {
             return new CommonResult().failed(e.getMessage());
         }
     }
-    @SysLog(MODULE = "sys", REMARK = "登录以后返回token")
-    @ApiOperation(value = "登录以后返回token")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public Object login(@RequestBody SysUser umsAdminLoginParam, BindingResult result) {
-        try {
-            String token = sysUserService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
-            if (token == null) {
-                return new CommonResult().paramFailed("用户名或密码错误");
-            }
-            Map<String, Object> tokenMap = new HashMap<>();
-            tokenMap.put("token", token);
-            tokenMap.put("tokenHead", tokenHead);
-            // tokenMap.put("userId", UserUtils.getCurrentMember().getId());
-            return new CommonResult().success(tokenMap);
-        } catch (Exception e) {
-            return new CommonResult().failed(e.getMessage());
-        }
-    }
+
     @SysLog(MODULE = "sys", REMARK = "获取当前登录用户信息")
     @ApiOperation(value = "获取当前登录用户信息")
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @GetMapping(value = "/info")
     @ResponseBody
     public Object getAdminInfo(Principal principal) {
         String username = principal.getName();
@@ -275,32 +318,35 @@ public class SysUserController extends ApiController {
             data.put("icon", umsAdmin.getIcon());
             data.put("userId", umsAdmin.getId());
             data.put("storeId", umsAdmin.getStoreId());
-
         }
-
         return new CommonResult().success(data);
     }
 
     @SysLog(MODULE = "sys", REMARK = "登出功能")
     @ApiOperation(value = "登出功能")
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @GetMapping(value = "/logout")
     @ResponseBody
     public Object logout() {
         return new CommonResult().success(null);
     }
 
+    /**
+     * 给用户分配角色
+     * @param sysUserVo 参数 : adminId 用户ID
+     * @param sysUserVo 参数 : roleId 角色ID
+     * @return
+     */
     @SysLog(MODULE = "sys", REMARK = "给用户分配角色")
     @ApiOperation("给用户分配角色")
     @PostMapping(value = "/role/update")
     @ResponseBody
-    public Object updateRole(@RequestParam("userId") Long userId,
-                             @RequestParam("roleId") Long roleId) {
-        Boolean flag = sysUserService.updateUserRole(userId, roleId);
+    public Object updateRole(@RequestBody(required = false) SysUserVo sysUserVo) {
+        Boolean flag = sysUserService.updateUserRole(sysUserVo.getUserId(), sysUserVo.getRoleId());
         if (flag) {
             //更新，删除时候，如果redis里有权限列表，重置
-            if (!redisService.exists(String.format(Rediskey.menuList, userId))) {
-                List<SysPermission> list = permissionMapper.listUserPerms(userId);
-                String key = String.format(Rediskey.menuList, userId);
+            if (!redisService.exists(String.format(Rediskey.menuList, sysUserVo.getUserId()))) {
+                List<SysPermission> list = permissionMapper.listUserPerms(sysUserVo.getUserId());
+                String key = String.format(Rediskey.menuList, sysUserVo.getUserId());
                 redisService.set(key, JsonUtil.objectToJson(list));
                 return list;
             }
@@ -358,7 +404,6 @@ public class SysUserController extends ApiController {
     @GetMapping(value = "/permission/{adminId}")
     @ResponseBody
     public Object getPermissionList(@PathVariable Long adminId) {
-//        List<SysPermission> permissionList = sysUserService.getPermissionListByUserId(adminId);
         List<SysPermission> permissionList = sysUserService.getPermissionListByUserId(adminId);
         return new CommonResult().success(permissionList);
     }

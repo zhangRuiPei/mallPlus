@@ -21,16 +21,31 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 
     /**
-     * 根据用户查询用户
+     * 根据用户名查询用户详细信息
+     * 条件 : 用户门 参数 : username
      * @param username
      * @return
      */
     SysUserVo selectByUserName(String username);
 
 
-    List<SysUser> findAll(SysUser entity);
-    List<SysUser> getUserLists(@Param("record") SysUser entity);
+    List<SysUserVo> findAll(SysUserVo entity);
 
+    /**
+     * 根据条件查询用户
+     * 条件 : 店铺ID  参数 : storeId
+     * 条件 : 角色ID 参数 : roleId
+     * 条件 : 店铺名称/用户昵称 参数 : nickName
+     * @param entity
+     * @return
+     */
+    List<SysUserVo> getUserLists(@Param("record") SysUserVo entity);
+
+    /**
+     * 根据用户ID查询 用户角色表
+     * @param userId 用户ID
+     * @return
+     */
     @Select("select id,role_id,admin_id from sys_user_role where admin_id=#{userId}")
     SysUserRole getUserRoleByUserId(@Param("userId") Long userId);
 }

@@ -108,6 +108,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Resource
     private UserCommunityRelateMapper userCommunityRelateMapper;
 
+    /**
+     * 刷新Token
+     * @param oldToken 旧Token
+     * @return
+     */
     @Override
     public String refreshToken(String oldToken) {
         String token = oldToken.substring(tokenHead.length());
@@ -118,7 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public String login(String username, String password) {
+    public String  login(String username, String password) {
         String token = null;
         //密码需要客户端加密后传递
         try {
@@ -139,6 +144,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return token;
     }
 
+    /**
+     * 给用户分配角色
+     * @param adminId 用户ID
+     * @param roleId 角色ID
+     * @return
+     */
     @Override
     public Boolean updateUserRole(Long adminId, Long roleId) {
         //先删除原来的关系
@@ -151,7 +162,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setNote(sysRole.getName());
         adminMapper.updateById(sysUser);
         //建立新关系
-
         SysUserRole roleRelation = new SysUserRole();
         roleRelation.setAdminId(adminId);
         roleRelation.setRoleId(roleId);
@@ -160,14 +170,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
 
+    /**
+     * 根据用户ID查询 用户角色表
+     * @param userId 用户ID
+     * @return
+     */
     public SysUserRole getUserRoleByUserId(Long userId){
         return adminMapper.getUserRoleByUserId(userId);
     }
+
+    /**
+     * 根据用户ID 删除用户角色表
+     * @param adminId
+     * @return
+     */
     @Override
     public int removeById(Long adminId) {
         //删除原所有权限关系
         SysUserRole sysUserRole = getUserRoleByUserId(adminId);
-
         adminRoleRelationService.removeById(sysUserRole.getId());
         return adminMapper.deleteById(adminId);
     }
@@ -225,47 +245,61 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 //        }
     }
 
+    /**
+     * 新增后台用户
+     * 参数 : username 用户门
+     * 参数 : storeId 商铺ID
+     * 参数 : password 密码(可为空)
+     * 参数 : email 邮箱
+     * 参数 : icon 头像URL
+     * @param umsAdmin
+     * @return
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saves(SysUserVo umsAdmin) {
+        boolean result = false;
         umsAdmin.setCreateTime(new Date());
         umsAdmin.setStatus(1);
+        umsAdmin.setEmail(umsAdmin.getEmail());
+        umsAdmin.setIcon(umsAdmin.getIcon());
         //查询是否有相同用户名的用户
-
         SysUser umsAdminList = adminMapper.selectByUserName(umsAdmin.getUsername());
-        if (umsAdminList != null) {
-            return false;
+        if (umsAdminList == null) {
+            if (umsAdmin.getStoreId() == 1) {
+                umsAdmin.setNote("后台员工");
+            } else {
+                umsAdmin.setNote("商家员工");
+            }//设置商铺名称
+            SysStore sysStore = iSysStoreService.getById(umsAdmin.getStoreId());
+            umsAdmin.setStoreName(sysStore.getName());
+            if (StringUtils.isEmpty(umsAdmin.getPassword())) {
+                umsAdmin.setPassword("123456");
+            }
+            String md5Password = passwordEncoder.encode(umsAdmin.getPassword());
+            umsAdmin.setPassword(md5Password);
+            umsAdmin.setStoreId(UserUtils.getCurrentMember().getStoreId());
+            adminMapper.insert(umsAdmin);
+            addUserRole(umsAdmin.getId(), umsAdmin.getRoleId(), umsAdmin.getStoreId());
+            result = true;
         }
-        //note设置角色名称
-        if(umsAdmin.getStoreId()==1){
-            umsAdmin.setNote("后台员工");
-            umsAdmin.setRoleId(3L);
-        }else{
-            umsAdmin.setNote("商家员工");
-            umsAdmin.setRoleId(6L);
-        }
-        //设置商铺名称
-        SysStore sysStore = iSysStoreService.getById(umsAdmin.getStoreId());
-        umsAdmin.setStoreName(sysStore.getName());
 
-        //将密码进行加密操作
-        if (StringUtils.isEmpty(umsAdmin.getPassword())) {
-            umsAdmin.setPassword("123456");
-        }
-        String md5Password = passwordEncoder.encode(umsAdmin.getPassword());
-        umsAdmin.setPassword(md5Password);
-        //  umsAdmin.setStoreId(UserUtils.getCurrentMember().getStoreId());
-        adminMapper.insert(umsAdmin);
-        addUserRole(umsAdmin.getId(), umsAdmin.getRoleId(),umsAdmin.getStoreId());
-
-        return true;
+        return result;
     }
 
+    /**
+     * 删除 用户和用户之前的关系,建立新关系
+     * @param adminId 用户id
+     * @param roleId 角色ID
+     * @param storeId 商铺ID
+     */
+    @Transactional(rollbackFor = Exception.class)
     public void addUserRole(Long adminId, Long roleId,Integer storeId) {
+        //删除缓存,如果有 删除原有关系
         this.removePermissRedis(adminId);
         adminRoleRelationMapper.delete(new QueryWrapper<SysUserRole>().eq("admin_id", adminId));
         //建立新关系
         if (!StringUtils.isEmpty(roleId)) {
-
             SysUserRole roleRelation = new SysUserRole();
             roleRelation.setAdminId(adminId);
             roleRelation.setRoleId(roleId);
@@ -274,15 +308,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
     }
 
+    /**
+     * 修改店铺内用户角色
+     * @param id 用户id
+     * @param admin 用户角色
+     * @return
+     */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean updates(Long id, SysUserVo admin) {
-        admin.setUsername(null);
-        admin.setId(id);
-        String md5Password = passwordEncoder.encode(admin.getPassword());
-        admin.setPassword(md5Password);
         updateRole(id, admin.getRoleIds());
-        adminMapper.updateById(admin);
         return true;
     }
 
@@ -348,7 +383,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!verifyAuthCode(umsAdmin.getCode(), umsAdmin.getUsername())) {
             return new CommonResult().failed("验证码错误");
         }
-        if (!umsAdmin.getPassword().equals(umsAdmin.getConfimpassword())) {
+        if (!umsAdmin.getPassword().equals(umsAdmin.getConfirmPassword())) {
             return new CommonResult().failed("密码不一致");
         }
         umsAdmin.setCreateTime(new Date());
@@ -450,22 +485,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public List<SysUser> findAll(SysUser entity) {
+    public List<SysUserVo> findAll(SysUserVo entity) {
         return sysUserMapper.findAll(entity);
     }
 
+    /**
+     * 根据条件查询用户
+     * 条件 : 店铺ID  参数 : storeId
+     * 条件 : 角色ID 参数 : roleId
+     * 条件 : 店铺名称/用户昵称 参数 : nickName
+     * @param entity
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Override
-    public Map<String,Object> getUserList(SysUser entity,Integer pageNum,Integer pageSize) {
+    public Map<String,Object> getUserList(SysUserVo entity,Integer pageNum,Integer pageSize) {
         Map<String,Object> map = new HashMap();
-
         PageHelper.startPage(pageNum,pageSize);
-
-        List<SysUser> userLists = adminMapper.getUserLists(entity);
-
-        Page<SysUser> all = (Page<SysUser>)userLists ;
+        List<SysUserVo> userLists = adminMapper.getUserLists(entity);
+        Page<SysUserVo> all = (Page<SysUserVo>)userLists ;
         map.put("data",all.getResult());
         map.put("total",all.getTotal());
-
         return map;
     }
 

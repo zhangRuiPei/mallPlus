@@ -79,9 +79,15 @@ public class SysUser implements Serializable {
     @TableField("is_admin")
     private Long isAdmin;
 
+    /**
+     * 商铺ID
+     */
     @TableField("store_id")
     private Integer storeId;
 
+    /**
+     * 商铺姓名
+     */
     @TableField("store_name")
     private String storeName;
 

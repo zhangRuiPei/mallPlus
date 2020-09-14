@@ -24,23 +24,24 @@
         id, username, password, icon, email, nick_name, note, create_time, login_time, status, is_admin,store_id,store_name
     </sql>
 
+    <!--根据用户名查询用户详细信息-->
     <select id="selectByUserName" resultType="com.zrp.mallplus.sys.vo.SysUserVo">
         select <include refid="Base_Column_List"></include> from sys_user
         where username = #{username}
     </select>
 
-    <select id="findAll" resultType="com.zrp.mallplus.sys.entity.SysUser">
-        SELECT su.username,se.name
+    <select id="findAll" resultType="com.zrp.mallplus.sys.vo.SysUserVo">
+        SELECT
+        su.username,
+        se.name
         FROM sys_user su
         LEFT JOIN sys_user_role sr ON su.id = sr.admin_id
         LEFT JOIN sys_role se ON sr.role_id = se.id
-        WHERE
-        1=1
         ORDER BY su.create_time
-
     </select>
-    <select id="getUserLists" resultType="com.zrp.mallplus.sys.entity.SysUser">
 
+    <!--根据用户商铺id,角色id,商铺名称,用户昵称查询-->
+    <select id="getUserLists" resultType="com.zrp.mallplus.sys.vo.SysUserVo">
         SELECT
         su.id,
         su.username,
@@ -52,7 +53,7 @@
         su.create_time,
         su.login_time,
         su.status,
-        su.supply_id,
+        su.is_admin,
         sr.name as roleName,
         sr.id as roleId
         FROM sys_user as su ,sys_user_role as sur,sys_role as sr
@@ -61,9 +62,11 @@
         <if test="record.storeId!=null">
             and su.store_id=#{record.storeId}
         </if>
+
         <if test="record.roleId!=null">
             and sur.role_id= #{record.roleId}
         </if>
+
         <if test="record.nickName !=null and record.nickName != '' ">
             and (su.store_name like concat('%',#{record.nickName},'%') or su.nick_name like concat('%',#{record.nickName},'%'))
         </if>
